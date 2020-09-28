@@ -11,10 +11,21 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    maxHeight: 500,
+  },
+  price: {
+    paddingTop: 15,
   },
 });
 
-export function ProductItem({ id, title, image, description, price, deleteProduct }) {
+export function ProductItem({ 
+  id, 
+  title, 
+  image, 
+  description, 
+  price, 
+  deleteProduct, 
+  getRole }) {
   const classes = useStyles();
 
   return (
@@ -29,19 +40,32 @@ export function ProductItem({ id, title, image, description, price, deleteProduc
             title={title}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography 
+              gutterBottom 
+              variant="h5" 
+              component="h2"
+            >
               {title}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography 
+              variant="body2" 
+              color="textSecondary" 
+              component="p"
+            >
               {description}
             </Typography>
-            <Typography variant="h5" align="center" component="p">
+            <Typography 
+              variant="h5" 
+              align="center" 
+              component="p"
+              className={classes.price}
+            >
               {price}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-        <Button 
+        {getRole !== 'user' && (<Button 
           variant="contained" 
           color="secondary"
           type="button"
@@ -50,7 +74,7 @@ export function ProductItem({ id, title, image, description, price, deleteProduc
           onClick={() => deleteProduct(id)}
         >
           x
-        </Button>
+        </Button>)}
         </CardActions>
       </Card>
     </li>

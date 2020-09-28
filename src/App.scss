@@ -1,3 +1,7 @@
+h1 {
+  text-transform: uppercase;;
+}
+
 .page {
   max-width: 1024px;
   margin: 0 auto;
@@ -9,6 +13,17 @@
   &__container {
     display: flex;
     justify-content: space-between;
+    height: 75px;
+  }
+
+  &__logo {
+    height: 75px;
+    width: auto;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: black;
   }
 }
 
@@ -20,12 +35,23 @@
 
 .info-block {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  font-weight: bold;
+
+  &:first-child {
+    padding-left: 15px;
+  }
+
+  &:nth-child(3) {
+    padding-right: 15px;
+  }
 }
 
 .products {
   &__list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-auto-rows: 500px;
     margin: 0;
     padding: 0;
     list-style: none;

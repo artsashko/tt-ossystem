@@ -7,27 +7,29 @@ const useStyles = makeStyles({
   root: {
     margin: 5,
   },
+  addButton: {
+    alignSelf: "flex-start",
+  },
 });
 
-export function AddProductForm({ products, setProducts }) {
+export function AddProductForm({ addProduct, getRole }) {
   const classes = useStyles();
   const [title, setTitle] = useState('');
-  const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [imageName, setImageName] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setProducts([
-      {
-        id: products.length + 1,
+    addProduct({
+        id: + new Date(),
         title,
-        image,
+        imageUrl,
         description,
         price: price + '$',
       },
-      ...products,
-    ]);
+    );
   }
 
   const handleImageChange = (e) => {
@@ -37,9 +39,15 @@ export function AddProductForm({ products, setProducts }) {
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      setImage(reader.result);
+      setImageUrl(reader.result);
     }
+
+    setImageName(e.target.files[0].name)
   };
+
+  if (getRole === 'user') {
+    return 'Sorry, You need to be admin to have access!'
+  }
 
   return (
     <>
@@ -81,31 +89,37 @@ export function AddProductForm({ products, setProducts }) {
           multiline
           required
         />
-        <input
-          accept="image/*"
-          onChange={(event) => handleImageChange(event)}
-          style={{display: 'none'}}
-          id="contained-button-file"
-          type="file"
-        />
-        <label htmlFor="contained-button-file">
+        <div className="form__row">
+          <input
+            accept="image/*"
+            onChange={(event) => handleImageChange(event)}
+            style={{display: 'none'}}
+            id="contained-button-file"
+            type="file"
+            required
+          />
+          <label htmlFor="contained-button-file">
+            <Button 
+              variant="contained" 
+              color="primary" 
+              className={classes.root}
+              component="span"
+            >
+              Upload
+            </Button>
+            {imageName ? imageName : 'Choose an image...'}
+          </label>
+        </div>
+        <div className="form__row">
           <Button 
-            variant="contained" 
-            color="primary" 
+            variant="outlined" 
+            color="primary"
             className={classes.root}
-            component="span"
+            type="submit"
           >
-            Upload image
+            Add product
           </Button>
-        </label>
-        <Button 
-          variant="outlined" 
-          color="primary"
-          className={classes.root}
-          type="submit"
-        >
-          Add product
-        </Button>
+        </div>
       </form>
     </>
   );
