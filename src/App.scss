@@ -1,0 +1,64 @@
+.page {
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Roboto',sans-serif;
+}
+
+.header {
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.main {
+  &__info-block {
+    margin-bottom: 15px;
+  }
+}
+
+.info-block {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.products {
+  &__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    padding: 15px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 0 auto;
+
+  &__row {
+    display: flex;
+  }
+
+  &__item {
+    margin: 15px;
+
+    &_title {
+      width: 80%;
+      margin: 15px;
+
+    }
+
+    &price {
+      width: 20%;
+    margin: 15px;
+
+    }
+  }
+}
