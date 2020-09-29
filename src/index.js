@@ -21,7 +21,7 @@ const ConnectedApp = connect(getData, getMethods)(App);
 ReactDOM.render(
   <Provider store={store}>
       <Router>
-        <Route path="/" component={ConnectedApp} />
+        <Route path="/tt-ossystem/" component={ConnectedApp} />
       </Router>
   </Provider>,
   document.getElementById('root')
