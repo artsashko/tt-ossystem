@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,28 +7,35 @@ const useStyles = makeStyles({
   root: {
     margin: 5,
   },
+  addButton: {
+    alignSelf: "flex-start",
+  },
 });
 
-export function AddProductForm({ products, setProducts }) {
+export function AddProductForm({ products, addProduct, getRole }) {
   const classes = useStyles();
   const [title, setTitle] = useState('');
-  const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [imageName, setImageName] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setProducts([
-      {
-        id: products.length + 1,
+    addProduct({
+        id: + new Date(),
         title,
-        image,
+        imageUrl,
         description,
         price: price + '$',
       },
-      ...products,
-    ]);
+    );
   }
+
+  useEffect(() => {
+    localStorage.setItem('products', JSON.stringify(products));
+  }, [products]);
+
 
   const handleImageChange = (e) => {
     e.preventDefault();
@@ -37,9 +44,19 @@ export function AddProductForm({ products, setProducts }) {
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      setImage(reader.result);
+      setImageUrl(reader.result);
     }
+
+    setImageName(e.target.files[0].name)
   };
+
+  if (getRole === 'user') {
+    return (
+      <p>
+        Sorry, You need to be admin to have access!
+      </p>
+    );
+  }
 
   return (
     <>
@@ -64,7 +81,6 @@ export function AddProductForm({ products, setProducts }) {
             onChange={(event) => setPrice(event.target.value)}
             value={price.trimLeft()}
             className={`${classes.root} form__item_price`}
-            id="outlined-required"
             label="price, $"
             variant="outlined"
             required
@@ -75,37 +91,42 @@ export function AddProductForm({ products, setProducts }) {
           onChange={(event) => setDescription(event.target.value)}
           value={description.trimLeft()}
           className={classes.root}
-          id="outlined-required"
           label="description"
           variant="outlined"
           multiline
           required
         />
-        <input
-          accept="image/*"
-          onChange={(event) => handleImageChange(event)}
-          style={{display: 'none'}}
-          id="contained-button-file"
-          type="file"
-        />
-        <label htmlFor="contained-button-file">
+        <div className="form__row">
+          <input
+            accept="image/*"
+            onChange={(event) => handleImageChange(event)}
+            style={{display: 'none'}}
+            id="contained-button-file"
+            type="file"
+            required
+          />
+          <label htmlFor="contained-button-file">
+            <Button 
+              variant="contained" 
+              color="primary" 
+              className={classes.root}
+              component="span"
+            >
+              Upload
+            </Button>
+            {imageName ? imageName : 'Choose an image...*'}
+          </label>
+        </div>
+        <div className="form__row">
           <Button 
-            variant="contained" 
-            color="primary" 
+            variant="outlined" 
+            color="primary"
             className={classes.root}
-            component="span"
+            type="submit"
           >
-            Upload image
+            Add product
           </Button>
-        </label>
-        <Button 
-          variant="outlined" 
-          color="primary"
-          className={classes.root}
-          type="submit"
-        >
-          Add product
-        </Button>
+        </div>
       </form>
     </>
   );
