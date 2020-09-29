@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-export function AddProductForm({ addProduct, getRole }) {
+export function AddProductForm({ products, addProduct, getRole }) {
   const classes = useStyles();
   const [title, setTitle] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -32,6 +32,11 @@ export function AddProductForm({ addProduct, getRole }) {
     );
   }
 
+  useEffect(() => {
+    localStorage.setItem('products', JSON.stringify(products));
+  }, [products]);
+
+
   const handleImageChange = (e) => {
     e.preventDefault();
     const reader = new FileReader();
@@ -46,7 +51,11 @@ export function AddProductForm({ addProduct, getRole }) {
   };
 
   if (getRole === 'user') {
-    return 'Sorry, You need to be admin to have access!'
+    return (
+      <p>
+        Sorry, You need to be admin to have access!
+      </p>
+    );
   }
 
   return (
@@ -72,7 +81,6 @@ export function AddProductForm({ addProduct, getRole }) {
             onChange={(event) => setPrice(event.target.value)}
             value={price.trimLeft()}
             className={`${classes.root} form__item_price`}
-            id="outlined-required"
             label="price, $"
             variant="outlined"
             required
@@ -83,7 +91,6 @@ export function AddProductForm({ addProduct, getRole }) {
           onChange={(event) => setDescription(event.target.value)}
           value={description.trimLeft()}
           className={classes.root}
-          id="outlined-required"
           label="description"
           variant="outlined"
           multiline
@@ -107,7 +114,7 @@ export function AddProductForm({ addProduct, getRole }) {
             >
               Upload
             </Button>
-            {imageName ? imageName : 'Choose an image...'}
+            {imageName ? imageName : 'Choose an image...*'}
           </label>
         </div>
         <div className="form__row">

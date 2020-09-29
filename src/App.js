@@ -1,8 +1,4 @@
-import React,
-  { useState,
-    useEffect, 
-    useMemo, 
-    useCallback } from 'react';
+import React, { useState } from 'react';
 import { Link, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearProducts, 
@@ -57,12 +53,13 @@ function App({ getRole, setRole }) {
     <div className="page">
       <header className="header">
         <div className="header__container">
+          <Link to="/tt-ossystem/" className="header__link">
           <img 
             src={logo} 
             alt="logo" 
             className="header__logo"
           />
-
+          </Link>
           <Button 
             aria-controls="simple-menu" 
             aria-haspopup="true" 
@@ -78,17 +75,12 @@ function App({ getRole, setRole }) {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>
-              <Link to="/" className="header__link">
-                Home
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link to="/catalog" className="header__link">
+              <Link to="/tt-ossystem/catalog" className="header__link">
                 Catalog
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link to="/addform" className="header__link">
+              <Link to="/tt-ossystem/addform" className="header__link">
                 Add form
               </Link>
             </MenuItem>
@@ -112,8 +104,8 @@ function App({ getRole, setRole }) {
         </Select>
       </FormControl>
         <Switch>
-          <Route path="/catalog"  component={ConnectedProductsList} />
-          <Route path="/addform" component={ConnectedAddProductForm} />
+          <Route path="/tt-ossystem/catalog" exact component={ConnectedProductsList} />
+          <Route path="/tt-ossystem/addform" exact component={ConnectedAddProductForm} />
         </Switch>
       </main>
     </div>

@@ -5,13 +5,13 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
-    maxHeight: 500,
+    minWidth: 245,
+    height: 450,
   },
   price: {
     paddingTop: 15,
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 export function ProductItem({ 
   id, 
   title, 
-  image, 
+  imageUrl, 
   description, 
   price, 
   deleteProduct, 
@@ -30,13 +30,20 @@ export function ProductItem({
 
   return (
     <li className="products__item">
+      {getRole !== 'user' && (<button 
+      type="button"
+      className="products__button-destroy"
+      onClick={() => deleteProduct(id)}
+      >
+        x
+      </button>)}
       <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
             component="img"
             alt={title}
             height="200"
-            image={image}
+            image={imageUrl}
             title={title}
           />
           <CardContent>
@@ -65,16 +72,6 @@ export function ProductItem({
           </CardContent>
         </CardActionArea>
         <CardActions>
-        {getRole !== 'user' && (<Button 
-          variant="contained" 
-          color="secondary"
-          type="button"
-          className="destroy"
-          size="small"
-          onClick={() => deleteProduct(id)}
-        >
-          x
-        </Button>)}
         </CardActions>
       </Card>
     </li>

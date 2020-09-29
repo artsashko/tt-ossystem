@@ -1,9 +1,11 @@
 import data from './data';
 
-let initialData = data;
+let initialData = null;
 
 if (JSON.parse(localStorage.getItem('products'))) {
   initialData = JSON.parse(localStorage.getItem('products'));
+} else {
+  initialData = data;
 }
 
 const ADD_PRODUCT = 'addProduct';
@@ -27,7 +29,6 @@ export const clearProducts = () => ({
 const productsReducer = (state = initialData, action) => {
   switch (action.type) {
     case ADD_PRODUCT:
-      localStorage.setItem('products', JSON.stringify(state));
       return [
           ...state,
           action.value,

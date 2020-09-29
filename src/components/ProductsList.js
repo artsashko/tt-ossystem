@@ -17,7 +17,11 @@ const ConnectedProductItem = connect(getData, getMethods)(ProductItem);
 export function ProductsList({ products }) {
 
   if (products.length === 0) {
-    return 'No products yet';
+    return (
+      <p>
+        No products yet...
+      </p>
+    );
   }
 
   return (

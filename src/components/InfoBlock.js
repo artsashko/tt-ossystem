@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useMemo }  from 'react';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   infoBlock: {
-    backgroundColor: "black",
-    color: "white",
+    backgroundColor: "#f6f6f6",
+    color: "#6d6464",
   },
 });
 
@@ -18,25 +18,28 @@ export const InfoBlock = ({
   getProductsCount,
   getRole }) => {
   const classes = useStyles();
-  const getAveragePrice = products && products.length !== 0
-  ? (getSumOfPrices / getProductsCount).toFixed(2)
-  : 0;
+
+  const getAveragePrice = useMemo(() => {
+    return products && products.length !== 0
+    ? (getSumOfPrices / getProductsCount).toFixed(2)
+    : 0;
+  }, [getSumOfPrices, getProductsCount, products]); 
 
   return (
     <Paper 
-      elevation={2} 
+      elevation={1} 
       className={`info-block main__info-block ${classes.infoBlock}`}
     >
-      <p>
+      <p className="info-block__item">
         {getProductsCount === 0 ? 'No' : getProductsCount}
         {` products in catalog`}
       </p>
-      <p>
+      <p className="info-block__item">
         {`Sum of prices - `}
         {getSumOfPrices}
         $
       </p>
-      <p>
+      <p className="info-block__item info-block__item_last">
         {`Average price - `}
         {getAveragePrice}
         $
@@ -45,7 +48,6 @@ export const InfoBlock = ({
         variant="contained" 
         color="secondary"
         type="button"
-        className="destroy"
         onClick={clearProducts}
       >
         clear catalog
