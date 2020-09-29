@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Link, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearProducts, 
@@ -53,7 +54,7 @@ function App({ getRole, setRole }) {
     <div className="page">
       <header className="header">
         <div className="header__container">
-          <Link to="/tt-ossystem/" className="header__link">
+          <Link to="/" className="header__link">
           <img 
             src={logo} 
             alt="logo" 
